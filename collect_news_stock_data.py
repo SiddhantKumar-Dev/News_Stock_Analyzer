@@ -3,6 +3,11 @@ from newsapi import NewsApiClient
 #pip3 install pandas_datareader
 import pandas_datareader as pdr 
 import json
+from textblob import TextBlob
+
+
+# print(testimonial.sentiment)
+# print(testimonial.sentiment.polarity)
 
 #API Key: 93f50165099047b19a1de1f5b2382950
 #GET https://newsapi.org/v2/everything?q=bitcoin&apiKey=93f50165099047b19a1de1f5b2382950
@@ -50,8 +55,8 @@ dates_list = [str(i)[:10] for i in dates]
 #Create a set with the dates (it is a hash object so searching will be O(1))
 date_set = set(dates_list)
 
-#Create the dictionary that will store the article information
-impact_dictionary = {}
+#Create the array that will store the article information
+impact_array = []
 
 #Go through each article
 for i in all_articles['articles']:
@@ -63,18 +68,21 @@ for i in all_articles['articles']:
 
     #Check if the date exists within the stock data
     if date in date_set:
-        #If the dat is in the article dictionary then append it to the array
-        if date in impact_dictionary:
-            impact_dictionary[date][0].append(article_string)
-        else:
-            #Get the stock information for the date
-            date_stock = stock_data.loc[date]
-            #Find the percent change of the stock (between opening and closing)
-            percent_change = ((date_stock[3] - date_stock[2])/date_stock[2])*100
-            #Add them to the impact dictionary
-            impact_dictionary[date] = [[article_string], percent_change]
 
-print(impact_dictionary)
+        #Get the stock information for the date
+        date_stock = stock_data.loc[date]
+        #Find the percent change of the stock (between opening and closing)
+        percent_change = ((date_stock[3] - date_stock[2])/date_stock[2])*100
+
+        impact_array.append([article_string, percent_change])
+
+# print(impact_array)
+
+sentiment_array = []
+for pair in impact_array:
+    value = TextBlob(pair[0])
+    sentiment_array.append([value.sentiment.polarity, pair[1]])
+print(sentiment_array)
 
 
 
