@@ -1,5 +1,6 @@
-#pip3 install newsapi
+#pip3 install newsapi-python
 from newsapi import NewsApiClient
+#pip3 install pandas_datareader
 import pandas_datareader as pdr 
 import json
 
