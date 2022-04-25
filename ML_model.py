@@ -42,6 +42,8 @@ model.fit(training_inputs, training_outputs, epochs=10, batch_size=5)
 
 test_loss, test_acc = model.evaluate(testing_inputs, testing_outputs)
 print('Test accuracy:', test_acc)
+model.save("model.h5")
+print("Saved model to disk")
 # a= np.array([[2000,3000],[4,5]])
 # print(model.predict(a))
 
