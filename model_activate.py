@@ -64,13 +64,6 @@ for i in sentiment_arr:
     
     prediction = model.predict(i)[0][0]
     sum_change += prediction
-    if prediction < 0:
-        sum_change2 += -(prediction**0.5)
-    else:
-        sum_change2 += (prediction**0.5)
     
-
-print(sum_change)
 print(sum_change/len(sentiment_arr))
-print(sum_change2/len(sentiment_arr))
 
